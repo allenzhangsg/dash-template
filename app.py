@@ -9,10 +9,9 @@ flask_app = Flask(__name__)
 
 DEPLOYENV = os.getenv("DEPLOYENV")
 if DEPLOYENV in ("Production", "Dev"):
-    from celery import Celery
+    from _celery import celery_app
     from dash import CeleryManager
 
-    celery_app = Celery(loader="", backend="")
     background_manager = CeleryManager(celery_app, cache_by=lambda: 100, expire=1200)
 else:
     import diskcache
@@ -54,7 +53,7 @@ def health():
 
 class HealthCheckFilter(logging.Filter):
     def filter(self, record):
-        return '/health' not in record.getMessage()
+        return '/health' not in record.getMessage() and '/favicon.ico' not in record.getMessage()
 
 
 # Create a handler for Gunicorn's access logs

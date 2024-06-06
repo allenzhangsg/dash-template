@@ -4,5 +4,6 @@ loglevel = 'info'
 accesslog = '-'
 errorlog = '-'
 timeout = 120
-worker_class = 'sync'
+worker_class = 'gthread'
+threads = 20
 access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s'
