@@ -24,7 +24,8 @@ layout = html.Div([
 # Define the callback to update the output div
 @callback(
     Output('my-output', 'children'),
-    [Input('my-dropdown', 'value')]
+    [Input('my-dropdown', 'value')],
+    background=True,
 )
 @_utils.timing(logger=app_logger, filename=__name__)
 def update_output(selected_value):
