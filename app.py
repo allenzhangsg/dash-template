@@ -5,6 +5,8 @@ import dash
 from dash import Dash, dcc, html
 from flask import Flask
 
+from _authz import AuthMiddleware
+
 flask_app = Flask(__name__)
 
 DEPLOYENV = os.getenv("DEPLOYENV")
@@ -13,6 +15,7 @@ if DEPLOYENV in ("Production", "Dev"):
     from dash import CeleryManager
 
     background_manager = CeleryManager(celery_app, cache_by=lambda: 100, expire=1200)
+    flask_app.wsgi_app = AuthMiddleware(flask_app.wsgi_app)
 else:
     import diskcache
     from dash import DiskcacheManager
